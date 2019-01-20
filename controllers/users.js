@@ -3,6 +3,7 @@ const jwt = require('jsonwebtoken');
 const currentUser = require('../lib/currentUser');
 const userSerializer = require('../serializers/user');
 const User = require('../models/user');
+const logger = require('../helper/logger');
 
 exports.index = async (req, res) => {
   const users = await User.all();
@@ -11,6 +12,7 @@ exports.index = async (req, res) => {
 };
 
 exports.me = async (req, res) => {
+  logger.infoLog('Received request for user details');
   const token = req.headers.jwt;
   const user = await currentUser(token);
   const serializedUser = await userSerializer(user);
